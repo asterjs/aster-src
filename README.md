@@ -27,12 +27,17 @@ aster.src([
 
 ## API
 
-### src(patterns)
+### src(patterns, options)
 
 #### patterns
 Type: `String|String[]`
 
 List of patterns as array of strings or one comma-separated string.
+
+#### options
+Type: `Object`
+
+`glob` module options (see https://github.com/isaacs/node-glob#options for details).
 
 ## License
 
