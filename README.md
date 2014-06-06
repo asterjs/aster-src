@@ -23,7 +23,7 @@ aster.src([
 .subscribe(aster.runner);
 ```
 
-`aster.src` returns [`Rx.Observable`](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/observable.md) which emits single inner [`Rx.Observable`](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/observable.md) of files presented as `{path: string, contents: string}` objects. 
+`aster.src` returns [`Rx.Observable`](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/observable.md) which, in order, emits single inner observable collection of file ASTs wrapped with custom `{type: 'File', program: ..., loc: {source: 'fileName.js'}}` node. 
 
 ## API
 
@@ -38,6 +38,19 @@ List of patterns as array of strings or one comma-separated string.
 Type: `Object`
 
 `glob` module options (see https://github.com/isaacs/node-glob#options for details).
+
+#### options.parse
+Type: `Function|Boolean|Object`
+Default: `true`
+
+* If preconfigured parser (i.e., `require('aster-parse-js')({loc: false})`) or custom `function (files) { ... }` is passed, it will be used as is.
+* If boolean is passed:
+  * `true` means files should be parsed with parser associated with file extension (see [aster-parse](https://github.com/asterjs/aster-parse)).
+  * `false` means files should not be parsed and so they are pushed as `{path: string, contents: string}` object.
+* If object is passed, it will be used as [parsing options](https://github.com/asterjs/aster-parse#parseoptions).
+
+### src.registerParser(extension, parser)
+Method for registering custom parsers associated with extension, see [asterParse.registerParser](https://github.com/asterjs/aster-parse#parseregisterparserextension-parser) for details.
 
 ## License
 

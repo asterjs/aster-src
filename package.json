@@ -1,6 +1,6 @@
 {
   "name": "aster-src",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Glob files reader for aster.",
   "author": "Ingvar Stepanyan <me@rreverser.com> (https://github.com/RReverser)",
   "repository": "asterjs/aster-src",
@@ -9,8 +9,8 @@
     "aster-plugin",
     "ast",
     "javascript",
-    "transform",
-    "modify"
+    "read",
+    "parse"
   ],
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,8 @@
     "rx": "^2.2.0"
   },
   "devDependencies": {
-    "mocha": "*",
-    "chai": "*"
+    "aster-parse-js": "0.0.2",
+    "chai": "*",
+    "mocha": "*"
   }
 }
