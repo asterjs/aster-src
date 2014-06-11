@@ -25,7 +25,7 @@ it('works', function (done) {
 	.pluck('loc').pluck('source')
 	.toArray()
 	.do(function (sources) {
-		assert.deepEqual(sources, ['glob.js', 'index.js', 'test/test.js']);
+		assert.deepEqual(sources.sort(), ['glob.js', 'index.js', 'test/test.js']);
 	})
 	.subscribe(function () {}, done, done);
 });
