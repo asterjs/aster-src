@@ -39,6 +39,12 @@ Type: `Object`
 
 `glob` module options (see https://github.com/isaacs/node-glob#options for details).
 
+#### options.noglob
+Type: `Boolean`
+Default: `false`
+
+Set to true if you want `patterns` to be used as explicit list of files instead of globbing patterns (used by [aster-watch](https://github.com/asterjs/aster-watch)).
+
 #### options.parse
 Type: `Function|Boolean|Object`
 Default: `true`

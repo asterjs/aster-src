@@ -19,6 +19,10 @@ module.exports = function (patterns, options) {
 		patterns = patterns.split(',');
 	}
 
+	if (options.noglob) {
+		return Rx.Observable.fromArray(patterns);
+	}
+
 	var notBad =
 		patterns
 		.filter(function (pattern) { return pattern[0] === '!' })
