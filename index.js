@@ -42,7 +42,7 @@ module.exports = function (patterns, options) {
 			throw new TypeError('Unknown options.parse format.');
 	}
 
-	return parse ? parse(files) : files;
+	return Rx.Observable.return(parse ? parse(files) : files);
 };
 
 module.exports.registerParser = asterParse.registerParser;

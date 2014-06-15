@@ -19,6 +19,7 @@ it('works', function (done) {
 	], {
 		parse: require('aster-parse-js')({loc: false})
 	})
+	.concatAll()
 	.do(function (file) {
 		assert.equal(file.program.type, 'Program');
 	})
@@ -36,6 +37,7 @@ it('works for explicit list of files', function (done) {
 	var files = ['glob.js', 'index.js', 'test/test.js'];
 
 	src(files, {noglob: true})
+	.concatAll()
 	.zip(files, function (file, fileName) {
 		assert.equal(file.loc.source, fileName);
 		assert.equal(file.program.type, 'Program');
