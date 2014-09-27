@@ -17,7 +17,7 @@ it('works', function (done) {
 		'**/*.js',
 		'!node_modules/**'
 	], {
-		parse: require('aster-parse-js')({loc: false})
+		parse: {loc: false}
 	})
 	.concatAll()
 	.do(function (file) {
