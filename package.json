@@ -1,6 +1,6 @@
 {
   "name": "aster-src",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Glob files reader for aster.",
   "author": "Ingvar Stepanyan <me@rreverser.com> (https://github.com/RReverser)",
   "repository": "asterjs/aster-src",
