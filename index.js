@@ -6,10 +6,8 @@ var readFile = Rx.Observable.fromNodeCallback(require('fs').readFile);
 var resolvePath = require('path').resolve;
 var asterParse = require('aster-parse');
 
-module.exports = function (patterns, options) {
-	options = options || {};
-
-	var files = glob(patterns, options).flatMap(function (path) {
+function filesSrc(patterns, options) {
+	return glob(patterns, options).flatMap(function (path) {
 		var fullPath = resolvePath(options.cwd || '', path);
 
 		return readFile(fullPath, 'utf-8').map(function (contents) {
@@ -19,6 +17,19 @@ module.exports = function (patterns, options) {
 			};
 		});
 	});
+}
+
+// allow passing a sources function which can be used to customize
+// creation of a sources observer
+module.exports = function (patterns, options) {
+	if (patterns === Object(patterns)) {
+		options = patterns
+	}
+	options = options || {};
+
+	var srcObserver = options.srcObserver || filesSrc;
+
+	var sources = typeof srcObserver === 'function' ? srcObserver(patterns || options, options) : srcObserver;
 
 	var parse;
 
@@ -42,7 +53,7 @@ module.exports = function (patterns, options) {
 			throw new TypeError('Unknown options.parse format.');
 	}
 
-	return Rx.Observable.return(parse ? parse(files) : files);
+	return Rx.Observable.return(parse ? parse(sources) : sources);
 };
 
 module.exports.registerParser = asterParse.registerParser;
