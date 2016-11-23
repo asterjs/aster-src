@@ -47,3 +47,38 @@ it('works for explicit list of files', function (done) {
 	// })
 	.subscribe(function () {}, done, done);
 });
+
+
+var glob = require('../glob');
+var readFile = Rx.Observable.fromNodeCallback(require('fs').readFile);
+var resolvePath = require('path').resolve;
+
+function customSrcObserver(patterns, options) {
+	return glob(patterns, options).flatMap(function (path) {
+		var fullPath = resolvePath(options.cwd || '', path);
+
+		return readFile(fullPath, 'utf-8').map(function (contents) {
+			console.log(contents.length)
+			return {
+				path: path,
+				contents: contents
+			};
+		});
+	});
+}
+
+
+it('works for explicit list of files', function (done) {
+	var files = ['glob.js', 'index.js', 'test/test.js'];
+
+	src(files, {noglob: true, srcObserver: customSrcObserver})
+	.concatAll()
+	.do(function (file) {
+		assert.equal(file.program.type, 'Program');
+	})
+	// .zip(files, function (file, fileName) {
+	// 	assert.equal(file.loc.source, fileName);
+	// 	assert.equal(file.program.type, 'Program');
+	// })
+	.subscribe(function () {}, done, done);
+});

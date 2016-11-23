@@ -39,6 +39,56 @@ Type: `Object`
 
 `glob` module options (see https://github.com/isaacs/node-glob#options for details).
 
+#### options.srcObserver
+
+Can be used to customize how to created an [Observable](http://reactivex.io/documentation/observable.html) for javascript sources to be parsed. By default `patterns` is used by `glob` to pattern match files and then read each file as an observable stream.
+
+```js
+function (patterns, options) {
+    // ...
+    // return Observable
+}
+```
+
+If you are observing source code that does not reside in files that can be filtered via the `patterns`, simply ignore this argument.
+
+The default `Observable` factory function:
+
+```js
+var readFile = Rx.Observable.fromNodeCallback(require('fs').readFile);
+
+function filesSrc(patterns, options) {
+    return glob(patterns, options).flatMap(function (path) {
+        var fullPath = resolvePath(options.cwd || '', path);
+
+        return readFile(fullPath, 'utf-8').map(function (contents) {
+            return {
+                path: path,
+                contents: contents
+            };
+        });
+    });
+}
+```
+
+You can pass either a factory function or an Observable directly
+
+```js
+function srcObserver(patterns, options) {
+    return Rx.Observable.of(options.sources);
+}
+
+const sources = ['var a = 1', 'var b = a + 2']
+
+// alternatively:
+// const srcObserver = Rx.Observable.of(options.sources);
+
+aster.src(null, {
+    srcObserver,
+    sources,
+})
+```
+
 #### options.noglob
 Type: `Boolean`
 Default: `false`
