@@ -22,11 +22,14 @@ function filesSrc(patterns, options) {
 // allow passing a sources function which can be used to customize
 // creation of a sources observer
 module.exports = function (patterns, options) {
+	if (patterns === Object(patterns)) {
+		options = patterns
+	}
 	options = options || {};
 
 	var srcObserver = options.srcObserver || filesSrc;
 
-	var sources = typeof srcObserver === 'function' ? srcObserver(patterns, options) : srcObserver;
+	var sources = typeof srcObserver === 'function' ? srcObserver(patterns || options, options) : srcObserver;
 
 	var parse;
 

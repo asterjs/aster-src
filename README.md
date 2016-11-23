@@ -45,14 +45,15 @@ Can be used to customize how to created an [Observable](http://reactivex.io/docu
 
 ```js
 function (patterns, options) {
-    // ...
     // return Observable
 }
 ```
 
-If you are observing source code that does not reside in files that can be filtered via the `patterns`, simply ignore this argument.
+If you are observing source code that does not reside in files that can be filtered via the `patterns`, simply ignore and leave out this argument: 
 
-The default `Observable` factory function:
+`function (options) { ... }`
+
+The default `Observable` factory function used:
 
 ```js
 var readFile = Rx.Observable.fromNodeCallback(require('fs').readFile);
@@ -74,7 +75,7 @@ function filesSrc(patterns, options) {
 You can pass either a factory function or an Observable directly
 
 ```js
-function srcObserver(patterns, options) {
+function srcObserver(options) {
     return Rx.Observable.of(options.sources);
 }
 
@@ -83,7 +84,7 @@ const sources = ['var a = 1', 'var b = a + 2']
 // alternatively:
 // const srcObserver = Rx.Observable.of(options.sources);
 
-aster.src(null, {
+aster.src({
     srcObserver,
     sources,
 })

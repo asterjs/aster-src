@@ -53,8 +53,8 @@ var glob = require('../glob');
 var readFile = Rx.Observable.fromNodeCallback(require('fs').readFile);
 var resolvePath = require('path').resolve;
 
-function customSrcObserver(patterns, options) {
-	return glob(patterns, options).flatMap(function (path) {
+function customSrcObserver(options) {
+	return glob(options.patterns, options).flatMap(function (path) {
 		var fullPath = resolvePath(options.cwd || '', path);
 
 		return readFile(fullPath, 'utf-8').map(function (contents) {
@@ -68,10 +68,14 @@ function customSrcObserver(patterns, options) {
 }
 
 
-it('works for explicit list of files', function (done) {
+it('works with custom Observable via srcObserver option and with only options argument', function (done) {
 	var files = ['glob.js', 'index.js', 'test/test.js'];
 
-	src(files, {noglob: true, srcObserver: customSrcObserver})
+	src({
+		patterns: files,
+		noglob: true,
+		srcObserver: customSrcObserver
+	})
 	.concatAll()
 	.do(function (file) {
 		assert.equal(file.program.type, 'Program');
