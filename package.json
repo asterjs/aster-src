@@ -18,10 +18,10 @@
     "test": "mocha"
   },
   "dependencies": {
-    "aster-parse": "^0.1.1",
-    "glob": "^4.0.6",
-    "minimatch": "^1.0.0",
-    "rx": "^2.3.11"
+    "aster-parse": "*",
+    "glob": "*",
+    "minimatch": "^3.0.3",
+    "rx": "^4.1.0"
   },
   "devDependencies": {
     "chai": "*",
